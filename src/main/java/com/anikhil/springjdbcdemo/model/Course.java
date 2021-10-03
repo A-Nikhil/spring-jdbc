@@ -1,5 +1,6 @@
 package com.anikhil.springjdbcdemo.model;
 
+
 public class Course {
 
 	private int courseId;
@@ -10,8 +11,7 @@ public class Course {
 	public Course() {
 	}
 
-	public Course(int courseId, String title, String description, String link) {
-		this.courseId = courseId;
+	public Course(String title, String description, String link) {
 		this.title = title;
 		this.description = description;
 		this.link = link;
@@ -47,5 +47,15 @@ public class Course {
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+
+	@Override
+	public String toString() {
+		return "Course{" +
+				"courseId=" + courseId +
+				", title='" + title + '\'' +
+				", description='" + description + '\'' +
+				", link='" + link + '\'' +
+				'}';
 	}
 }
