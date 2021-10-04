@@ -4,6 +4,7 @@ import com.anikhil.springjdbcdemo.mappers.CourseRowMapper;
 import com.anikhil.springjdbcdemo.model.Course;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +38,14 @@ public class CourseJdbcDAO implements DAO<Course> {
 
 	@Override
 	public Optional<Course> get(int id) {
-		return Optional.empty();
+		String sql = "select course_id, title, description, link from course where course_id = ?";
+		Course course = null;
+		try {
+			course = jdbcTemplate.queryForObject(sql, new Object[]{id}, new CourseRowMapper());
+		} catch (DataAccessException e) {
+			LOG.error(e.getMessage());
+		}
+		return Optional.ofNullable(course);
 	}
 
 	@Override
