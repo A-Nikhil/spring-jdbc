@@ -61,6 +61,12 @@ public class CourseJdbcDAO implements DAO<Course> {
 
 	@Override
 	public boolean delete(int id) {
+		String sql = "delete from course where course_id = ?";
+		int deletedRows = jdbcTemplate.update(sql, id);
+		if (deletedRows == 1) {
+			LOG.info("Successfully deleted course with id - " + id);
+			return true;
+		}
 		return false;
 	}
 }
