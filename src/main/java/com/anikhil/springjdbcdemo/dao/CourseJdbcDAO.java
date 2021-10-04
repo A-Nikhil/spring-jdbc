@@ -1,13 +1,16 @@
 package com.anikhil.springjdbcdemo.dao;
 
+import com.anikhil.springjdbcdemo.mappers.CourseRowMapper;
 import com.anikhil.springjdbcdemo.model.Course;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class CourseJdbcDAO implements DAO<Course> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CourseJdbcDAO.class);
@@ -19,7 +22,8 @@ public class CourseJdbcDAO implements DAO<Course> {
 
 	@Override
 	public List<Course> list() {
-		return null;
+		String sql = "select course_id, title, description, link from course";
+		return jdbcTemplate.query(sql, new CourseRowMapper());
 	}
 
 	@Override
