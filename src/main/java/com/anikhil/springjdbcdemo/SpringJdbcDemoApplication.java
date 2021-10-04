@@ -19,6 +19,10 @@ public class SpringJdbcDemoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringJdbcDemoApplication.class, args);
 
+		System.out.println("Inserting new Course --------");
+		Course course = new Course("Spring JDBC", "Spring JDBC", "https://github.com/a-nikhil/spring-jdbc");
+		courseDAO.create(course);
+
 		System.out.println("All Courses ------------");
 		List<Course> courses = courseDAO.list();
 		courses.forEach(System.out::println);
