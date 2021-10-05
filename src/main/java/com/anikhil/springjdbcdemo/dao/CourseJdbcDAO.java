@@ -1,7 +1,9 @@
 package com.anikhil.springjdbcdemo.dao;
 
+import com.anikhil.springjdbcdemo.entityMappings.TableMapping;
 import com.anikhil.springjdbcdemo.mappers.CourseRowMapper;
 import com.anikhil.springjdbcdemo.model.Course;
+import com.anikhil.springjdbcdemo.sqlBuilder.CourseSQLBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -14,16 +16,19 @@ import java.util.Optional;
 @Component
 public class CourseJdbcDAO implements DAO<Course> {
 
+	private final TableMapping courseTableMapping = TableMapping.COURSE;
 	private static final Logger LOG = LoggerFactory.getLogger(CourseJdbcDAO.class);
 	private JdbcTemplate jdbcTemplate;
+	private final CourseSQLBuilder courseSQLBuilder;
 
-	public CourseJdbcDAO(JdbcTemplate jdbcTemplate) {
+	public CourseJdbcDAO(JdbcTemplate jdbcTemplate, CourseSQLBuilder courseSQLBuilder) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.courseSQLBuilder = courseSQLBuilder;
 	}
 
 	@Override
 	public List<Course> list() {
-		String sql = "select course_id, title, description, link from course";
+		String sql = this.courseSQLBuilder.buildSelectQuery(this.courseTableMapping);
 		return jdbcTemplate.query(sql, new CourseRowMapper());
 	}
 
