@@ -1,4 +1,4 @@
-package com.anikhil.springjdbcdemo.model;
+package com.anikhil.springjdbcdemo.course;
 
 
 public class Course {

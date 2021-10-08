@@ -1,4 +1,4 @@
-package com.anikhil.springjdbcdemo.entityMappings;
+package com.anikhil.springjdbcdemo.course;
 
 import com.anikhil.springjdbcdemo.utils.ColumnMapping;
 import com.anikhil.springjdbcdemo.utils.SQLField;

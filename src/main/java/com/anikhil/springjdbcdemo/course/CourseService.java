@@ -1,7 +1,7 @@
-package com.anikhil.springjdbcdemo.service;
+package com.anikhil.springjdbcdemo.course;
 
-import com.anikhil.springjdbcdemo.dao.DAO;
-import com.anikhil.springjdbcdemo.model.Course;
+import com.anikhil.springjdbcdemo.dao.BaseDAO;
+import com.anikhil.springjdbcdemo.service.BaseService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,34 +10,34 @@ import java.util.Optional;
 @Service
 public class CourseService implements BaseService<Course> {
 
-	private final DAO<Course> courseDAO;
+	private final BaseDAO<Course> courseBaseDAO;
 
-	public CourseService(DAO<Course> courseDAO) {
-		this.courseDAO = courseDAO;
+	public CourseService(BaseDAO<Course> courseBaseDAO) {
+		this.courseBaseDAO = courseBaseDAO;
 	}
 
 	@Override
 	public List<Course> getCourses() {
-		return courseDAO.list();
+		return courseBaseDAO.list();
 	}
 
 	@Override
 	public boolean createCourse(Course course) {
-		return courseDAO.create(course);
+		return courseBaseDAO.create(course);
 	}
 
 	@Override
 	public Optional<Course> getCourseWithId(int id) {
-		return courseDAO.get(id);
+		return courseBaseDAO.get(id);
 	}
 
 	@Override
 	public boolean updateCourse(Course course, int id) {
-		return courseDAO.update(course, id);
+		return courseBaseDAO.update(course, id);
 	}
 
 	@Override
 	public boolean deleteCourseWithId(int id) {
-		return courseDAO.delete(id);
+		return courseBaseDAO.delete(id);
 	}
 }

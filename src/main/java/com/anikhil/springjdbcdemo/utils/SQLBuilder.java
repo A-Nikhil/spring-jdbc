@@ -1,6 +1,5 @@
 package com.anikhil.springjdbcdemo.utils;
 
-import com.anikhil.springjdbcdemo.entityMappings.TableMapping;
 import org.springframework.stereotype.Service;
 
 /**

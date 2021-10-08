@@ -1,5 +1,6 @@
-package com.anikhil.springjdbcdemo.entityMappings;
+package com.anikhil.springjdbcdemo.utils;
 
+import com.anikhil.springjdbcdemo.course.CourseSQLFields;
 import com.anikhil.springjdbcdemo.utils.SQLField;
 
 import java.util.ArrayList;
