@@ -1,4 +1,6 @@
-package com.anikhil.springjdbcdemo.utils;
+package com.anikhil.springjdbcdemo.sqlfields;
+
+import com.anikhil.springjdbcdemo.utils.ColumnMapping;
 
 import java.util.List;
 

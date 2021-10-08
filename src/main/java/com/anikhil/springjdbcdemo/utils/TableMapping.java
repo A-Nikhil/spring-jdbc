@@ -1,7 +1,7 @@
 package com.anikhil.springjdbcdemo.utils;
 
-import com.anikhil.springjdbcdemo.course.CourseSQLFields;
-import com.anikhil.springjdbcdemo.utils.SQLField;
+import com.anikhil.springjdbcdemo.sqlfields.CourseSQLFields;
+import com.anikhil.springjdbcdemo.sqlfields.SQLField;
 
 import java.util.ArrayList;
 import java.util.List;

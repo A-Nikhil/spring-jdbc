@@ -1,6 +1,5 @@
-package com.anikhil.springjdbcdemo.course;
+package com.anikhil.springjdbcdemo.sqlbuilders;
 
-import com.anikhil.springjdbcdemo.utils.SQLBuilder;
 import org.springframework.stereotype.Service;
 
 @Service

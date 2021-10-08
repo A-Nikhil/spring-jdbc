@@ -1,7 +1,7 @@
 package com.anikhil.springjdbcdemo;
 
-import com.anikhil.springjdbcdemo.course.Course;
-import com.anikhil.springjdbcdemo.course.CourseService;
+import com.anikhil.springjdbcdemo.models.Course;
+import com.anikhil.springjdbcdemo.service.CourseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

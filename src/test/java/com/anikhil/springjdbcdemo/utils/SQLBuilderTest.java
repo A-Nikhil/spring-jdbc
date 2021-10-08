@@ -1,5 +1,6 @@
 package com.anikhil.springjdbcdemo.utils;
 
+import com.anikhil.springjdbcdemo.sqlbuilders.SQLBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

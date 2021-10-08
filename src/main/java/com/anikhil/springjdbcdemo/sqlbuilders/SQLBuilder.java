@@ -1,5 +1,7 @@
-package com.anikhil.springjdbcdemo.utils;
+package com.anikhil.springjdbcdemo.sqlbuilders;
 
+import com.anikhil.springjdbcdemo.sqlfields.SQLField;
+import com.anikhil.springjdbcdemo.utils.TableMapping;
 import org.springframework.stereotype.Service;
 
 /**

@@ -1,6 +1,8 @@
-package com.anikhil.springjdbcdemo.course;
+package com.anikhil.springjdbcdemo.dao;
 
-import com.anikhil.springjdbcdemo.dao.BaseDAO;
+import com.anikhil.springjdbcdemo.models.Course;
+import com.anikhil.springjdbcdemo.mappers.CourseRowMapper;
+import com.anikhil.springjdbcdemo.sqlbuilders.CourseSQLBuilder;
 import com.anikhil.springjdbcdemo.utils.TableMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
