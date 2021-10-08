@@ -7,7 +7,7 @@ public interface DAO<T> {
 
 	List<T> list();
 
-	void create(T t);
+	boolean create(T t);
 
 	Optional<T> get(int id);
 

@@ -16,9 +16,9 @@ import java.util.Optional;
 @Component
 public class CourseJdbcDAO implements DAO<Course> {
 
-	private final TableMapping courseTableMapping = TableMapping.COURSE;
+	private static final TableMapping courseTableMapping = TableMapping.COURSE;
 	private static final Logger LOG = LoggerFactory.getLogger(CourseJdbcDAO.class);
-	private JdbcTemplate jdbcTemplate;
+	private final JdbcTemplate jdbcTemplate;
 	private final CourseSQLBuilder courseSQLBuilder;
 
 	public CourseJdbcDAO(JdbcTemplate jdbcTemplate, CourseSQLBuilder courseSQLBuilder) {
@@ -28,17 +28,15 @@ public class CourseJdbcDAO implements DAO<Course> {
 
 	@Override
 	public List<Course> list() {
-		String sql = this.courseSQLBuilder.buildSelectQuery(this.courseTableMapping);
+		String sql = this.courseSQLBuilder.buildSelectQuery(courseTableMapping);
 		return jdbcTemplate.query(sql, new CourseRowMapper());
 	}
 
 	@Override
-	public void create(Course course) {
+	public boolean create(Course course) {
 		String sql = "insert into course (title, description, link) values (?, ?, ?)";
 		int rowsInserted = jdbcTemplate.update(sql, course.getTitle(), course.getDescription(), course.getLink());
-		if (rowsInserted == 1) {
-			LOG.info("New course created - " + course.getTitle());
-		}
+		return rowsInserted == 1;
 	}
 
 	@Override

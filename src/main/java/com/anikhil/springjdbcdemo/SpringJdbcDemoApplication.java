@@ -1,11 +1,12 @@
 package com.anikhil.springjdbcdemo;
 
-import com.anikhil.springjdbcdemo.dao.DAO;
 import com.anikhil.springjdbcdemo.model.Course;
+import com.anikhil.springjdbcdemo.service.CourseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 import java.util.List;
 
@@ -13,21 +14,14 @@ import java.util.List;
 public class SpringJdbcDemoApplication {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SpringJdbcDemoApplication.class);
-	private static DAO<Course> courseDAO;
-
-	public SpringJdbcDemoApplication(DAO<Course> courseDAO) {
-		this.courseDAO = courseDAO;
-	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringJdbcDemoApplication.class, args);
 
-//		System.out.println("Inserting new Course --------");
-//		Course course = new Course("Spring JDBC", "Spring JDBC", "https://github.com/a-nikhil/spring-jdbc");
-//		courseDAO.create(course);
+		ApplicationContext applicationContext = SpringApplication.run(SpringJdbcDemoApplication.class);
 
 		LOG.info("All Courses ------------");
-		List<Course> courses = courseDAO.list();
+		CourseService courseService = applicationContext.getBean(CourseService.class);
+		List<Course> courses = courseService.getCourses();
 		courses.forEach(course -> LOG.info(course.toString()));
 	}
 
