@@ -28,7 +28,7 @@ public class CourseJdbcBaseDAO implements BaseDAO<Course> {
 
 	@Override
 	public List<Course> list() {
-		String sql = this.courseSQLBuilder.buildSelectQuery(courseTableMapping);
+		String sql = this.courseSQLBuilder.buildSelectQueryForAll();
 		return jdbcTemplate.query(sql, new CourseRowMapper());
 	}
 
