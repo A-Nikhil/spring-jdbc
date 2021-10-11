@@ -21,7 +21,7 @@ public class SpringJdbcDemoApplication {
 
 		LOG.info("All Courses ------------");
 		CourseService courseService = applicationContext.getBean(CourseService.class);
-		List<Course> courses = courseService.getCourses();
+		List<Course> courses = courseService.get();
 		courses.forEach(course -> LOG.info(course.toString()));
 	}
 

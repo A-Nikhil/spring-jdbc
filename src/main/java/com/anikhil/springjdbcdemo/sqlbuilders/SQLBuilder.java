@@ -4,6 +4,8 @@ import com.anikhil.springjdbcdemo.sqlfields.SQLField;
 import com.anikhil.springjdbcdemo.utils.TableMapping;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 /**
  * Generates query for basic SQL operations
  * These are complete operations that can happen on any table
@@ -83,13 +85,14 @@ public class SQLBuilder {
     }
 
     protected String from(String tableName) {
-        return "FROM " +
+        return " FROM " +
                 tableName;
     }
 
-    protected String equals(SQLField sqlField) {
-        return " = " +
-                sqlField.getDbColumn();
+    protected String equal(Map<SQLField, SQLField> equalParams) {
+//        return " = " +
+//                sqlField.getDbColumn();
+        return null;
     }
 
     protected String where(SQLField sqlField) {

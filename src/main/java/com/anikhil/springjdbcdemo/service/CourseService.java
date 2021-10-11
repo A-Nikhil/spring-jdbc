@@ -18,27 +18,27 @@ public class CourseService implements BaseService<Course> {
 	}
 
 	@Override
-	public List<Course> getCourses() {
+	public List<Course> get() {
 		return courseBaseDAO.list();
 	}
 
 	@Override
-	public boolean createCourse(Course course) {
+	public boolean create(Course course) {
 		return courseBaseDAO.create(course);
 	}
 
 	@Override
-	public Optional<Course> getCourseWithId(int id) {
+	public Optional<Course> getEntityWithId(int id) {
 		return courseBaseDAO.get(id);
 	}
 
 	@Override
-	public boolean updateCourse(Course course, int id) {
+	public boolean update(Course course, int id) {
 		return courseBaseDAO.update(course, id);
 	}
 
 	@Override
-	public boolean deleteCourseWithId(int id) {
+	public boolean deleteEntityWithId(int id) {
 		return courseBaseDAO.delete(id);
 	}
 }
