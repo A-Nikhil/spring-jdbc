@@ -4,6 +4,6 @@ public class DecimalSQLValidator implements SQLValidator {
 
 	@Override
 	public boolean isAcceptable(Object object) {
-		return false;
+		return (object instanceof Double) || (object instanceof Float);
 	}
 }
