@@ -1,4 +1,4 @@
-package com.anikhil.springjdbcdemo.validators;
+package com.anikhil.springjdbcdemo.sqldatatypes;
 
 public class IntegerSQLValidator implements SQLValidator {
 

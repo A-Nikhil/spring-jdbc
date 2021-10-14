@@ -1,6 +1,6 @@
 package com.anikhil.springjdbcdemo.utils;
 
-import com.anikhil.springjdbcdemo.validators.SQLValidator;
+import com.anikhil.springjdbcdemo.sqldatatypes.SQLValidator;
 
 public class ColumnMapping {
     private String columnName;

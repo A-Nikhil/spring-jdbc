@@ -1,7 +1,7 @@
 package com.anikhil.springjdbcdemo.sqlfields;
 
 import com.anikhil.springjdbcdemo.utils.ColumnMapping;
-import com.anikhil.springjdbcdemo.validators.StringSQLValidator;
+import com.anikhil.springjdbcdemo.sqldatatypes.StringSQLValidator;
 
 import java.util.ArrayList;
 import java.util.List;

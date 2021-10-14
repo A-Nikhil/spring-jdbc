@@ -1,4 +1,4 @@
-package com.anikhil.springjdbcdemo.validators;
+package com.anikhil.springjdbcdemo.sqldatatypes;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -2,7 +2,7 @@ package com.anikhil.springjdbcdemo;
 
 import com.anikhil.springjdbcdemo.sqlfields.SQLField;
 import com.anikhil.springjdbcdemo.utils.TableMapping;
-import com.anikhil.springjdbcdemo.validators.SQLValidator;
+import com.anikhil.springjdbcdemo.sqldatatypes.SQLValidator;
 
 public class MainTestRunner {
     public static void main(String[] args) {
