@@ -22,7 +22,8 @@ public class MainTestRunner {
 //        SQLDataType sqlDataType = title.getColumnMapping().getSqlDataType();
 //        SQLValidator validator = sqlDataType.getValidator();
 //        LOG.info(validator.isAcceptable(intValue) ? "True" : "False");
-        LOG.info(new CourseSQLBuilder().buildInsertQueryForAll());
+//        LOG.info();
+//        new CourseSQLBuilder().buildInsertQuery();
         return false;
     }
 }
