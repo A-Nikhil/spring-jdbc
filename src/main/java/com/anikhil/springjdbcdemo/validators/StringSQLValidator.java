@@ -1,6 +1,10 @@
 package com.anikhil.springjdbcdemo.validators;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class StringSQLValidator implements SQLValidator {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StringSQLValidator.class);
 
     @Override
     public boolean isAcceptable(Object object) {
@@ -10,6 +14,7 @@ public class StringSQLValidator implements SQLValidator {
             throw new WrongParameterTypeException("String");
         }
         */
+        LOGGER.info(object.getClass().getName());
         return object instanceof String;
     }
 }
