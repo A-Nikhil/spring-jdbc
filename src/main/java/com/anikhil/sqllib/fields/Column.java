@@ -24,7 +24,7 @@ public class Column {
 	 * @param dataType Data Type of the column
 	 * @param primaryKey Is the column primary key
 	 */
-	protected Column(String columnName, SQLDataType dataType, boolean primaryKey) {
+	public Column(String columnName, SQLDataType dataType, boolean primaryKey) {
 		this.columnName = columnName;
 		this.dataType = dataType;
 		this.primaryKey = primaryKey;

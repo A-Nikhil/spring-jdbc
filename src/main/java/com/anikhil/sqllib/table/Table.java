@@ -7,6 +7,6 @@ import java.util.Set;
 public interface Table {
 	String getTableName();
 	Set<Column> getAllColumns();
+	Set<String> getAllColumnNames();
 	Set<Column> getPrimaryKeyColumns();
-	String toString();
 }
