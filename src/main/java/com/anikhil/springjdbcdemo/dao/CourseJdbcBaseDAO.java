@@ -1,9 +1,7 @@
 package com.anikhil.springjdbcdemo.dao;
 
-import com.anikhil.springjdbcdemo.models.Course;
 import com.anikhil.springjdbcdemo.mappers.CourseRowMapper;
-import com.anikhil.springjdbcdemo.sqlbuilders.CourseSQLBuilder;
-import com.anikhil.springjdbcdemo.utils.TableMapping;
+import com.anikhil.springjdbcdemo.models.Course;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -16,14 +14,12 @@ import java.util.Optional;
 @Component
 public class CourseJdbcBaseDAO implements BaseDAO<Course> {
 
-	private static final TableMapping courseTableMapping = TableMapping.COURSE;
 	private static final Logger LOG = LoggerFactory.getLogger(CourseJdbcBaseDAO.class);
 	private final JdbcTemplate jdbcTemplate;
-	private final CourseSQLBuilder courseSQLBuilder;
 
-	public CourseJdbcBaseDAO(JdbcTemplate jdbcTemplate, CourseSQLBuilder courseSQLBuilder) {
+	// TODO: 17-10-2021 Add New SQL Builder code
+	public CourseJdbcBaseDAO(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
-		this.courseSQLBuilder = courseSQLBuilder;
 	}
 
 	@Override
