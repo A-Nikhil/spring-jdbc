@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Generates query for basic SQL operations
@@ -23,18 +22,13 @@ public class SQLBuilder {
 	protected SQLBuilder() {
 	}
 
-	public String buildSelectQuery(TableMapping tableMapping) {
-		return select(tableMapping.getSqlFields()) +
-				from(tableMapping.getTableName());
+	public String buildSelectQuery(String tableName, SQLField... sqlFields) {
+		return select(sqlFields) + from(tableName);
 	}
 
 	protected String buildInsertQuery(String tableName, SQLField[] sqlFields, Map<SQLField, Object> insertParams) {
 		return insert(tableName, sqlFields) +
 				values(sqlFields, insertParams);
-	}
-
-	public String buildCreateQuery(TableMapping tableMapping) {
-		return null;
 	}
 
 	public String buildDeleteQuery(TableMapping tableMapping) {

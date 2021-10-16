@@ -11,19 +11,14 @@ public class CourseSQLBuilder extends SQLBuilder {
 
 	private static final TableMapping courseTableMapping = TableMapping.COURSE;
 
+	public String buildSelectQuery(SQLField... sqlFields) {
+		return super.buildSelectQuery(courseTableMapping.getTableName(), sqlFields);
+	}
+
 	public String buildInsertQuery(SQLField[] sqlFields, Map<SQLField, Object> insertParams) {
 		return super.buildInsertQuery(courseTableMapping.getTableName(),
 				sqlFields,
 				insertParams);
-	}
-
-	/**
-	 * Builds select query for all fields
-	 *
-	 * @return String create query
-	 */
-	public String buildCreateQueryForAll() {
-		return super.buildCreateQuery(courseTableMapping);
 	}
 
 	/**
