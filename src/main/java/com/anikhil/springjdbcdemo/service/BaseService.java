@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BaseService<T> {
-	List<T> getCourses();
+	List<T> get();
 
-	boolean createCourse(T t);
+	boolean create(T t);
 
-	Optional<T> getCourseWithId(int id);
+	Optional<T> getEntityWithId(int id);
 
-	boolean updateCourse(T t, int id);
+	boolean update(T t, int id);
 
-	boolean deleteCourseWithId(int id);
+	boolean deleteEntityWithId(int id);
 }
