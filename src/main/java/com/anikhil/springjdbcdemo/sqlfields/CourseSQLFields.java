@@ -10,7 +10,8 @@ public enum CourseSQLFields implements SQLField {
 	COURSE_ID(new ColumnMapping("course_id", true, true, SQLDataType.INTEGER)),
 	TITLE(new ColumnMapping("title", false, false, SQLDataType.STRING)),
 	DESCRIPTION(new ColumnMapping("description", false, false, SQLDataType.STRING)),
-	LINK(new ColumnMapping("link", false, false, SQLDataType.STRING));
+	LINK(new ColumnMapping("link", false, false, SQLDataType.STRING)),
+	RANDOM(new ColumnMapping("random", false, false, SQLDataType.INTEGER));
 
 	private final ColumnMapping columnMapping;
 
