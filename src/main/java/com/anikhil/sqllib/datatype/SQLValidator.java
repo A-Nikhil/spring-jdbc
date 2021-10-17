@@ -1,4 +1,4 @@
-package com.anikhil.springjdbcdemo.sqldatatypes;
+package com.anikhil.sqllib.datatype;
 
 import org.springframework.stereotype.Component;
 

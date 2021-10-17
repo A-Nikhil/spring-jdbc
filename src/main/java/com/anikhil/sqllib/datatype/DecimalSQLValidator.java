@@ -1,4 +1,4 @@
-package com.anikhil.springjdbcdemo.sqldatatypes;
+package com.anikhil.sqllib.datatype;
 
 public class DecimalSQLValidator implements SQLValidator {
 

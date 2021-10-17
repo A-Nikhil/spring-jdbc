@@ -1,29 +1,37 @@
 package com.anikhil.springjdbcdemo;
 
-import com.anikhil.springjdbcdemo.sqlbuilders.CourseSQLBuilder;
-import com.anikhil.springjdbcdemo.sqldatatypes.SQLDataType;
-import com.anikhil.springjdbcdemo.sqlfields.SQLField;
-import com.anikhil.springjdbcdemo.utils.TableMapping;
-import com.anikhil.springjdbcdemo.sqldatatypes.SQLValidator;
+import com.anikhil.springjdbcdemo.sqltables.CourseTable;
+import com.anikhil.springjdbcdemo.sqltables.TableFactory;
+import com.anikhil.sqllib.fields.Column;
+import com.anikhil.sqllib.query.SQLQuery;
+import com.anikhil.sqllib.query.SQLQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MainTestRunner {
     private static final Logger LOG = LoggerFactory.getLogger(MainTestRunner.class);
+
     public static void main(String[] args) {
-        Integer intValue = 25;
-        String stringValue = "Hello World";
-        TableMapping courseTableMapping = TableMapping.COURSE;
-        checkIntegerValidator(courseTableMapping, intValue);
+        testNewLibrary();
     }
 
-    private static boolean checkIntegerValidator(TableMapping courseTableMapping, Integer intValue) {
-//        SQLField title = courseTableMapping.getSqlFields()[1];
-//        SQLDataType sqlDataType = title.getColumnMapping().getSqlDataType();
-//        SQLValidator validator = sqlDataType.getValidator();
-//        LOG.info(validator.isAcceptable(intValue) ? "True" : "False");
-//        LOG.info();
-//        new CourseSQLBuilder().buildInsertQuery();
+    private static boolean checkIntegerValidator() {
         return false;
+    }
+
+    private static void testNewLibrary() {
+        CourseTable courseTable = TableFactory.getTableByName("course", CourseTable.class);
+        Column[] columns = {courseTable.courseId, courseTable.title, courseTable.description, courseTable.link};
+        SQLQuery query = getCoursesFromLibTest(columns);
+        LOG.info(query.getQuery());
+    }
+
+    private static SQLQuery getCoursesFromLibTest(Column... columns) {
+        SQLQuery query = new SQLQueryBuilder()
+                .select(columns)
+                .from("course")
+                .build();
+        LOG.info(query.getQuery());
+        return query;
     }
 }
