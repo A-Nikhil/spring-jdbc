@@ -12,7 +12,7 @@ import java.util.Set;
 public class CourseTable extends Table {
 
 	public final Column courseId;
-	public final Column name;
+	public final Column title;
 	public final Column description;
 	public final Column link;
 
@@ -23,7 +23,7 @@ public class CourseTable extends Table {
 	protected CourseTable() {
 		this.tableName = "course";
 		this.courseId = new Column("course_id", SQLDataType.INTEGER, false);
-		this.name = new Column("name", SQLDataType.STRING, false);
+		this.title = new Column("title", SQLDataType.STRING, false);
 		this.description = new Column("description", SQLDataType.STRING, false);
 		this.link = new Column("link", SQLDataType.STRING, false);
 	}
@@ -45,7 +45,7 @@ public class CourseTable extends Table {
 
 	@Override
 	public Set<Column> getAllColumns() {
-		return new HashSet<>(Arrays.asList(this.courseId, this.name, this.description, this.link));
+		return new HashSet<>(Arrays.asList(this.courseId, this.title, this.description, this.link));
 	}
 
 	@Override
