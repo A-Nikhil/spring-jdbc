@@ -6,9 +6,9 @@ public class TableFactory {
 
 	private static final Table courseTable = new CourseTable();
 
-	public static Table getTableByName(String tableName) {
+	public static <T extends Table> T getTableByName(String tableName, Class<T> type) {
 		if ("course".equalsIgnoreCase(tableName)) {
-			return courseTable;
+			return type.cast(courseTable);
 		}
 		// FIXME: 17-10-2021 FIx this null with else to make sure this factory always returns a Table
 		return null;

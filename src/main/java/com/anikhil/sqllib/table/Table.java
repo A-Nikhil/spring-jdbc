@@ -4,9 +4,15 @@ import com.anikhil.sqllib.fields.Column;
 
 import java.util.Set;
 
-public interface Table {
-	String getTableName();
-	Set<Column> getAllColumns();
-	Set<String> getAllColumnNames();
-	Set<Column> getPrimaryKeyColumns();
+public abstract class Table {
+
+	public String tableName;
+
+	public abstract String getTableName();
+
+	public abstract Set<Column> getAllColumns();
+
+	public abstract Set<String> getAllColumnNames();
+
+	public abstract Set<Column> getPrimaryKeyColumns();
 }

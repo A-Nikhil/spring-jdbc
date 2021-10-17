@@ -9,9 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class CourseTable implements Table {
+public class CourseTable extends Table {
 
-	private static final String tableName = "course";
 	public final Column courseId;
 	public final Column name;
 	public final Column description;
@@ -22,6 +21,7 @@ public class CourseTable implements Table {
 	 * Only {@link com.anikhil.springjdbcdemo.sqltables.TableFactory} can create an object and return
 	 */
 	protected CourseTable() {
+		this.tableName = "course";
 		this.courseId = new Column("course_id", SQLDataType.INTEGER, false);
 		this.name = new Column("name", SQLDataType.STRING, false);
 		this.description = new Column("description", SQLDataType.STRING, false);
