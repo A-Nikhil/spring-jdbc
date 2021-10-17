@@ -6,7 +6,7 @@ import java.util.Set;
 
 public abstract class Table {
 
-	public String tableName;
+	protected String tableName;
 
 	public abstract String getTableName();
 

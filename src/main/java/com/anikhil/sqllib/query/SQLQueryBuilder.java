@@ -1,15 +1,28 @@
 package com.anikhil.sqllib.query;
 
 import com.anikhil.sqllib.fields.Column;
+import com.anikhil.sqllib.table.Table;
+
+import java.util.Map;
 
 public class SQLQueryBuilder {
 
     private final SQLQuery sqlQuery;
     private final StringBuilder queryBuilder;
+    private final Table tableEntity;
 
-    public SQLQueryBuilder() {
+    private SQLQueryBuilder(Table tableEntity) {
         this.sqlQuery = new SQLQuery();
         this.queryBuilder = new StringBuilder();
+        this.tableEntity = tableEntity;
+    }
+
+    public static SQLQueryBuilder createBuilderForTable(Table tableEntity) {
+        return new SQLQueryBuilder(tableEntity);
+    }
+
+    public Table getTableEntity() {
+        return tableEntity;
     }
 
     public SQLQuery build() {
