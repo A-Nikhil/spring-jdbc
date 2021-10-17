@@ -18,9 +18,10 @@ public class CourseTable implements Table {
 	public final Column link;
 
 	/**
-	 * Table classes should not be initialized
+	 * Table classes should not be initialized by other classes
+	 * Only {@link com.anikhil.springjdbcdemo.sqltables.TableFactory} can create an object and return
 	 */
-	public CourseTable() {
+	protected CourseTable() {
 		this.courseId = new Column("course_id", SQLDataType.INTEGER, false);
 		this.name = new Column("name", SQLDataType.STRING, false);
 		this.description = new Column("description", SQLDataType.STRING, false);

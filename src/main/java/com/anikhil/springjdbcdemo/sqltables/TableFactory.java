@@ -13,4 +13,9 @@ public class TableFactory {
 		// FIXME: 17-10-2021 FIx this null with else to make sure this factory always returns a Table
 		return null;
 	}
+
+	/**
+	 * Prevent instantiation
+	 */
+	private TableFactory () {}
 }
