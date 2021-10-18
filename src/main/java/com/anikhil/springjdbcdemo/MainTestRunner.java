@@ -1,7 +1,6 @@
 package com.anikhil.springjdbcdemo;
 
 import com.anikhil.springjdbcdemo.sqltables.CourseTable;
-import com.anikhil.springjdbcdemo.sqltables.TableFactory;
 import com.anikhil.sqllib.fields.Column;
 import com.anikhil.sqllib.query.SQLQuery;
 import com.anikhil.sqllib.query.SQLQueryBuilder;
@@ -20,18 +19,12 @@ public class MainTestRunner {
     }
 
     private static void testNewLibrary() {
-        CourseTable courseTable = TableFactory.getTableByName("course", CourseTable.class);
+        CourseTable courseTable = new CourseTable();
         Column[] columns = {courseTable.courseId, courseTable.title, courseTable.description, courseTable.link};
-        SQLQuery query = getCoursesFromLibTest(columns);
-        LOG.info(query.getQuery());
-    }
-
-    private static SQLQuery getCoursesFromLibTest(Column... columns) {
-        SQLQuery query = new SQLQueryBuilder()
-                .select(columns)
-                .from("course")
+        SQLQueryBuilder<CourseTable> sqlQueryBuilder = new SQLQueryBuilder<>(new CourseTable());
+        SQLQuery query = sqlQueryBuilder
+                .insert("course", columns)
                 .build();
         LOG.info(query.getQuery());
-        return query;
     }
 }

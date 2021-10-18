@@ -1,4 +1,4 @@
-package com.anikhil.springjdbcdemo;
+package com.anikhil;
 
 import com.anikhil.springjdbcdemo.models.Course;
 import com.anikhil.springjdbcdemo.service.CourseService;

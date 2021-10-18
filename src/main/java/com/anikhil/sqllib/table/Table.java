@@ -6,13 +6,13 @@ import java.util.Set;
 
 public abstract class Table {
 
-	protected String tableName;
+    protected String tableName;
 
-	public abstract String getTableName();
+    public abstract String getTableName();
 
-	public abstract Set<Column> getAllColumns();
+    public abstract Set<Column> getAllColumns();
 
-	public abstract Set<String> getAllColumnNames();
+    public abstract Set<String> getAllColumnNames();
 
-	public abstract Set<Column> getPrimaryKeyColumns();
+    public abstract Set<Column> getPrimaryKeyColumns();
 }

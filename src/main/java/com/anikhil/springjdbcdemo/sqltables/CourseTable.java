@@ -1,5 +1,7 @@
 package com.anikhil.springjdbcdemo.sqltables;
 
+import org.springframework.stereotype.Component;
+
 import com.anikhil.sqllib.datatype.SQLDataType;
 import com.anikhil.sqllib.fields.Column;
 import com.anikhil.sqllib.table.Table;
@@ -9,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Component
 public class CourseTable extends Table {
 
 	public final Column courseId;
@@ -16,11 +19,7 @@ public class CourseTable extends Table {
 	public final Column description;
 	public final Column link;
 
-	/**
-	 * Table classes should not be initialized by other classes
-	 * Only {@link com.anikhil.springjdbcdemo.sqltables.TableFactory} can create an object and return
-	 */
-	protected CourseTable() {
+	public CourseTable() {
 		this.tableName = "course";
 		this.courseId = new Column("course_id", SQLDataType.INTEGER, false);
 		this.title = new Column("title", SQLDataType.STRING, false);
