@@ -11,7 +11,7 @@ import com.anikhil.springjdbcdemo.mappers.CourseRowMapper;
 import com.anikhil.springjdbcdemo.models.Course;
 import com.anikhil.springjdbcdemo.sqltables.CourseTable;
 import com.anikhil.sqllib.exceptions.ColumnNotFoundException;
-import com.anikhil.sqllib.exceptions.DuplicateColumnException;
+import com.anikhil.sqllib.exceptions.DuplicateEntryException;
 import com.anikhil.sqllib.query.SQLQuery;
 import com.anikhil.sqllib.query.SQLQueryBuilder;
 
@@ -45,7 +45,7 @@ public class CourseJdbcBaseDAO implements BaseDAO<Course> {
                     .build();
             String sql = query.getQuery();
             return jdbcTemplate.query(sql, new CourseRowMapper());
-        } catch (ColumnNotFoundException | DuplicateColumnException e) {
+        } catch (ColumnNotFoundException | DuplicateEntryException e) {
             LOG.error(e.getMessage());
         }
         return Collections.emptyList();

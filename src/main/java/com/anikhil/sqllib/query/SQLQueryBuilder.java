@@ -1,7 +1,9 @@
 package com.anikhil.sqllib.query;
 
+import com.anikhil.sqllib.datatype.SQLDataType;
 import com.anikhil.sqllib.exceptions.ColumnNotFoundException;
-import com.anikhil.sqllib.exceptions.DuplicateColumnException;
+import com.anikhil.sqllib.exceptions.DuplicateEntryException;
+import com.anikhil.sqllib.exceptions.WrongDataTypeException;
 import com.anikhil.sqllib.fields.Column;
 import com.anikhil.sqllib.table.Table;
 
@@ -32,7 +34,7 @@ public class SQLQueryBuilder<T extends Table> {
         return this.sqlQuery;
     }
 
-    public SQLQueryBuilder<T> select(Column... columns) throws ColumnNotFoundException, DuplicateColumnException {
+    public SQLQueryBuilder<T> select(Column... columns) throws ColumnNotFoundException, DuplicateEntryException {
         this.queryBuilder.append("SELECT ");
         performTableCheck(columns);
         for (Column column : columns) {
@@ -78,20 +80,42 @@ public class SQLQueryBuilder<T extends Table> {
         return this;
     }
 
-    public SQLQueryBuilder<T> values(Map<Column, Object> paramMap) {
-
+    public SQLQueryBuilder<T> values(Map<Column, Object> paramMap)
+            throws ColumnNotFoundException, DuplicateEntryException, WrongDataTypeException {
+        this.queryBuilder.append(" VALUES(");
+        Set<String> columnNames = this.getTableEntity().getAllColumnNames();
+        Column column;
+        Object data;
+        for (Map.Entry<Column, Object> params : paramMap.entrySet()) {
+            column = params.getKey();
+            data = params.getValue();
+            if (!columnNames.contains(column.getColumnName())) {
+                throw new ColumnNotFoundException(column.getColumnName(), this.getTableEntity().getTableName());
+            }
+            this.queryBuilder.append(getFormattedValueForData(data, column.getDataType()))
+                    .append(", ");
+        }
+        this.queryBuilder.delete(this.queryBuilder.length() - 2, this.queryBuilder.length())
+                .append(")");
         return this;
     }
 
+    private String getFormattedValueForData(Object data, SQLDataType dataType) throws WrongDataTypeException {
+        if (!dataType.getValidator().isAcceptable(data)) {
+            throw new WrongDataTypeException();
+        }
+        return null;
+    }
+
     private void performTableCheck(Column[] columnsToBeChecked)
-            throws ColumnNotFoundException, DuplicateColumnException {
+            throws ColumnNotFoundException, DuplicateEntryException {
         Set<String> columnNames = this.getTableEntity().getAllColumnNames();
         for (Column column : columnsToBeChecked) {
             if (!columnNames.contains(column.getColumnName())) {
                 throw new ColumnNotFoundException(column.getColumnName(), this.getTableEntity().getTableName());
             } else {
                 if (!columnNames.remove(column.getColumnName())) {
-                    throw new DuplicateColumnException();
+                    throw new DuplicateEntryException();
                 }
             }
         }
