@@ -1,11 +1,12 @@
 package com.anikhil.springjdbcdemo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.anikhil.springjdbcdemo.sqltables.CourseTable;
 import com.anikhil.sqllib.fields.Column;
 import com.anikhil.sqllib.query.SQLQuery;
 import com.anikhil.sqllib.query.SQLQueryBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class MainTestRunner {
     private static final Logger LOG = LoggerFactory.getLogger(MainTestRunner.class);

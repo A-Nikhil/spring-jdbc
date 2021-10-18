@@ -1,7 +1,8 @@
 package com.anikhil.springjdbcdemo.mappers;
 
-import com.anikhil.springjdbcdemo.models.Course;
 import org.springframework.jdbc.core.RowMapper;
+
+import com.anikhil.springjdbcdemo.models.Course;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

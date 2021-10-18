@@ -1,8 +1,9 @@
 package com.anikhil.springjdbcdemo.service;
 
+import org.springframework.stereotype.Service;
+
 import com.anikhil.springjdbcdemo.dao.BaseDAO;
 import com.anikhil.springjdbcdemo.models.Course;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;

@@ -5,13 +5,13 @@ import java.util.Optional;
 
 public interface BaseDAO<T> {
 
-	List<T> list();
+    List<T> list();
 
-	boolean create(T t);
+    boolean create(T t);
 
-	Optional<T> get(int id);
+    Optional<T> get(int id);
 
-	boolean update(T t, int id);
+    boolean update(T t, int id);
 
-	boolean delete(int id);
+    boolean delete(int id);
 }
