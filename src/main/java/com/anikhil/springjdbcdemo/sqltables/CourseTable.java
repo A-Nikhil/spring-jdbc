@@ -49,7 +49,7 @@ public class CourseTable extends Table {
 
     @Override
     public Set<String> getAllColumnNames() {
-        return new HashSet<>(Arrays.asList("course_id", "name", "description", "link"));
+        return new HashSet<>(Arrays.asList("course_id", "title", "description", "link"));
     }
 
     @Override
