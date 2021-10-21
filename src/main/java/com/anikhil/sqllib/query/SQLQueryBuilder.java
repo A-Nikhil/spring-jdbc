@@ -3,6 +3,7 @@ package com.anikhil.sqllib.query;
 import com.anikhil.sqllib.datatype.SQLDataType;
 import com.anikhil.sqllib.exceptions.ColumnNotFoundException;
 import com.anikhil.sqllib.exceptions.DuplicateEntryException;
+import com.anikhil.sqllib.exceptions.IncorrectOrderException;
 import com.anikhil.sqllib.exceptions.WrongDataTypeException;
 import com.anikhil.sqllib.fields.Column;
 import com.anikhil.sqllib.table.Table;
@@ -20,7 +21,7 @@ public class SQLQueryBuilder<T extends Table> {
     private final T tableEntity;
     private final String tableName;
     private final SQLQueryOrderValidation orderValidation;
-    private final List<SQLQueryKeyword> ongoingOrder = new ArrayList<>();
+    private final List<SQLQueryKeyword> ongoingOrder;
 
     public SQLQueryBuilder(T tableEntity) {
         this.sqlQuery = new SQLQuery();
@@ -28,6 +29,7 @@ public class SQLQueryBuilder<T extends Table> {
         this.tableEntity = tableEntity;
         this.tableName = tableEntity.getTableName();
         orderValidation = new SQLQueryOrderValidation();
+        ongoingOrder = new ArrayList<>();
     }
 
     public Table getTableEntity() {
@@ -40,7 +42,9 @@ public class SQLQueryBuilder<T extends Table> {
         return this.sqlQuery;
     }
 
-    public SQLQueryBuilder<T> select(Column... columns) throws ColumnNotFoundException, DuplicateEntryException {
+    public SQLQueryBuilder<T> select(Column... columns)
+            throws ColumnNotFoundException, DuplicateEntryException, IncorrectOrderException {
+        validateOrder("select");
         this.queryBuilder.append("SELECT ");
         performColumnValidations(columns);
         for (Column column : columns) {
@@ -74,7 +78,8 @@ public class SQLQueryBuilder<T extends Table> {
         return this;
     }
 
-    public SQLQueryBuilder<T> from(String tableName) {
+    public SQLQueryBuilder<T> from(String tableName) throws IncorrectOrderException {
+        validateOrder("from");
         this.queryBuilder
                 .append("FROM ")
                 .append(tableName)
@@ -145,5 +150,10 @@ public class SQLQueryBuilder<T extends Table> {
                 }
             }
         }
+    }
+
+    private void validateOrder(String keyword) throws IncorrectOrderException {
+        this.orderValidation.validateOrder(this.ongoingOrder, keyword);
+        this.ongoingOrder.add(SQLQueryKeyword.getKeyword(keyword));
     }
 }

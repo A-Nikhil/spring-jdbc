@@ -91,8 +91,11 @@ public class SQLQueryOrderValidation {
             throws IncorrectOrderException {
         final List<SQLQueryKeyword> notAcceptedKeywords = keywordOrder.getNotAcceptedKeywords();
         final List<SQLQueryKeyword> predecessor = keywordOrder.getPredecessor();
-        if (ongoingOrder.size() != 0 && predecessor == null) {
-            throw new IncorrectOrderException(keywordOrder.getKeywordName());
+        if (predecessor != null && ongoingOrder.isEmpty()) {
+            throw new IncorrectOrderException(keywordOrder.getKeywordName(), true);
+        }
+        if (!ongoingOrder.isEmpty() && predecessor == null) {
+            throw new IncorrectOrderException(keywordOrder.getKeywordName(), false);
         }
         for (SQLQueryKeyword keyword : ongoingOrder) {
             if (notAcceptedKeywords != null && notAcceptedKeywords.contains(keyword)) {

@@ -4,8 +4,11 @@ public class IncorrectOrderException extends Exception {
     public IncorrectOrderException() {
     }
 
-    public IncorrectOrderException(String keyword) {
-        super(keyword + " should not have any predecessors");
+    public IncorrectOrderException(String keyword, boolean shouldHavePredecessor) {
+        super(String.format("%s should %s predecessors",
+                keyword,
+                shouldHavePredecessor ? "have" : "not have")
+        );
     }
 
     public IncorrectOrderException(String pre, String keyword, boolean notAcceptedError) {

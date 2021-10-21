@@ -16,11 +16,11 @@ public class SQLQueryOrder {
     }
 
     public List<SQLQueryKeyword> getNotAcceptedKeywords() {
-        return Arrays.asList(notAcceptedKeywords);
+        return this.notAcceptedKeywords == null ? null : Arrays.asList(notAcceptedKeywords);
     }
 
     public List<SQLQueryKeyword> getPredecessor() {
-        return Arrays.asList(predecessor);
+        return this.predecessor == null ? null : Arrays.asList(predecessor);
     }
 
     public String getKeywordName() {
