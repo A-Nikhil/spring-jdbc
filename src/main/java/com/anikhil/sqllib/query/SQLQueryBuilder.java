@@ -7,32 +7,27 @@ import com.anikhil.sqllib.exceptions.WrongDataTypeException;
 import com.anikhil.sqllib.fields.Column;
 import com.anikhil.sqllib.table.Table;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/*
-TODO : Validating Column Order in values
-*  My thoughts
-Create a variable column[] and set it when insert is called
-Make sure to throw an error when values is called before insert
- */
-
-/*
-TODO : Validating query calls
- */
 public class SQLQueryBuilder<T extends Table> {
 
     private final SQLQuery sqlQuery;
     private final StringBuilder queryBuilder;
     private final T tableEntity;
     private final String tableName;
+    private final SQLQueryOrderValidation orderValidation;
+    private final List<SQLQueryKeyword> ongoingOrder = new ArrayList<>();
 
     public SQLQueryBuilder(T tableEntity) {
         this.sqlQuery = new SQLQuery();
         this.queryBuilder = new StringBuilder();
         this.tableEntity = tableEntity;
         this.tableName = tableEntity.getTableName();
+        orderValidation = new SQLQueryOrderValidation();
     }
 
     public Table getTableEntity() {

@@ -7,10 +7,12 @@ public class SQLQueryOrder {
 
     private final SQLQueryKeyword[] notAcceptedKeywords;
     private final SQLQueryKeyword[] predecessor;
+    private final String keywordName;
 
-    public SQLQueryOrder(SQLQueryKeyword[] notAcceptedKeywords, SQLQueryKeyword[] predecessor) {
+    public SQLQueryOrder(String keywordName, SQLQueryKeyword[] notAcceptedKeywords, SQLQueryKeyword[] predecessor) {
         this.notAcceptedKeywords = notAcceptedKeywords;
         this.predecessor = predecessor;
+        this.keywordName = keywordName;
     }
 
     public List<SQLQueryKeyword> getNotAcceptedKeywords() {
@@ -19,5 +21,9 @@ public class SQLQueryOrder {
 
     public List<SQLQueryKeyword> getPredecessor() {
         return Arrays.asList(predecessor);
+    }
+
+    public String getKeywordName() {
+        return keywordName;
     }
 }

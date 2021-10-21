@@ -9,53 +9,53 @@ import java.util.List;
 @Component
 public class SQLQueryOrderValidation {
 
-    private final SQLQueryOrder select = new SQLQueryOrder(
+    private final SQLQueryOrder select = new SQLQueryOrder("select",
             new SQLQueryKeyword[]{SQLQueryKeyword.INSERT, SQLQueryKeyword.UPDATE,
                     SQLQueryKeyword.DELETE},
             null
     );
 
-    private final SQLQueryOrder insert = new SQLQueryOrder(
+    private final SQLQueryOrder insert = new SQLQueryOrder("insert",
             new SQLQueryKeyword[]{SQLQueryKeyword.SELECT, SQLQueryKeyword.UPDATE,
                     SQLQueryKeyword.DELETE},
             null
     );
 
-    private final SQLQueryOrder update = new SQLQueryOrder(
+    private final SQLQueryOrder update = new SQLQueryOrder("update",
             new SQLQueryKeyword[]{SQLQueryKeyword.INSERT, SQLQueryKeyword.SELECT,
                     SQLQueryKeyword.DELETE},
             null
     );
 
 
-    private final SQLQueryOrder delete = new SQLQueryOrder(
+    private final SQLQueryOrder delete = new SQLQueryOrder("delete",
             new SQLQueryKeyword[]{SQLQueryKeyword.INSERT, SQLQueryKeyword.UPDATE,
                     SQLQueryKeyword.SELECT},
             null
     );
 
-    private final SQLQueryOrder from = new SQLQueryOrder(
+    private final SQLQueryOrder from = new SQLQueryOrder("from",
             null,
             new SQLQueryKeyword[]{SQLQueryKeyword.SELECT, SQLQueryKeyword.DELETE}
     );
 
-    private final SQLQueryOrder values = new SQLQueryOrder(
+    private final SQLQueryOrder values = new SQLQueryOrder("values",
             null,
             new SQLQueryKeyword[]{SQLQueryKeyword.INSERT}
     );
 
-    private final SQLQueryOrder set = new SQLQueryOrder(
+    private final SQLQueryOrder set = new SQLQueryOrder("set",
             new SQLQueryKeyword[]{SQLQueryKeyword.UPDATE},
             null
     );
 
-    private final SQLQueryOrder where = new SQLQueryOrder(
+    private final SQLQueryOrder where = new SQLQueryOrder("where",
             new SQLQueryKeyword[]{SQLQueryKeyword.SELECT, SQLQueryKeyword.UPDATE,
                     SQLQueryKeyword.DELETE, SQLQueryKeyword.SET, SQLQueryKeyword.FROM},
             null
     );
 
-    public void validateOrder(SQLQueryKeyword[] ongoingOrder, String keyword) throws IncorrectOrderException {
+    public void validateOrder(List<SQLQueryKeyword> ongoingOrder, String keyword) throws IncorrectOrderException {
         SQLQueryOrder order;
         keyword = keyword.toLowerCase();
         switch (keyword) {
@@ -87,15 +87,18 @@ public class SQLQueryOrderValidation {
         validateOrder(ongoingOrder, order);
     }
 
-    private void validateOrder(SQLQueryKeyword[] ongoingOrder, SQLQueryOrder keywordOrder)
+    private void validateOrder(List<SQLQueryKeyword> ongoingOrder, SQLQueryOrder keywordOrder)
             throws IncorrectOrderException {
         final List<SQLQueryKeyword> notAcceptedKeywords = keywordOrder.getNotAcceptedKeywords();
         final List<SQLQueryKeyword> predecessor = keywordOrder.getPredecessor();
+        if (ongoingOrder.size() != 0 && predecessor == null) {
+            throw new IncorrectOrderException(keywordOrder.getKeywordName());
+        }
         for (SQLQueryKeyword keyword : ongoingOrder) {
-            if (notAcceptedKeywords.contains(keyword)) {
+            if (notAcceptedKeywords != null && notAcceptedKeywords.contains(keyword)) {
                 throw new IncorrectOrderException(keyword.toString(), keyword.toString(), true);
             } else if (!predecessor.contains(keyword)) {
-                throw new IncorrectOrderException(keyword.toString(), keywordOrder.toString(), false);
+                throw new IncorrectOrderException(keyword.toString(), keywordOrder.getKeywordName(), false);
             }
         }
     }
