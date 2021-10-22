@@ -30,7 +30,12 @@ public class MainTestRunner {
         Column[] columns = {courseTable.courseId, courseTable.title, courseTable.description, courseTable.link};
         SQLQueryBuilder<CourseTable> sqlQueryBuilder = new SQLQueryBuilder<>(new CourseTable());
         Map<Column, Object> paramMap = new HashMap<>();
-        SQLQuery query = sqlQueryBuilder.from("course").select(courseTable.courseId).build();
+        SQLQuery query = sqlQueryBuilder
+//                .from("course")
+//                .select(courseTable.courseId)
+                .insert(courseTable.courseId)
+                .from("course")
+                .build();
         /*
         paramMap.put(courseTable.courseId, 123);
         paramMap.put(courseTable.title, "Title");
