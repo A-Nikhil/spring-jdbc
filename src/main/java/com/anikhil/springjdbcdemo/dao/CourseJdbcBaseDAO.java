@@ -1,17 +1,20 @@
 package com.anikhil.springjdbcdemo.dao;
 
-import com.anikhil.springjdbcdemo.mappers.CourseRowMapper;
-import com.anikhil.springjdbcdemo.models.Course;
-import com.anikhil.springjdbcdemo.sqltables.CourseTable;
-import com.anikhil.springjdbcdemo.sqltables.TableFactory;
-import com.anikhil.sqllib.fields.Column;
-import com.anikhil.sqllib.query.SQLQuery;
-import com.anikhil.sqllib.query.SQLQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+
+import com.anikhil.springjdbcdemo.mappers.CourseRowMapper;
+import com.anikhil.springjdbcdemo.models.Course;
+import com.anikhil.springjdbcdemo.sqltables.CourseTable;
+import com.anikhil.sqllib.exceptions.ColumnNotFoundException;
+import com.anikhil.sqllib.exceptions.DuplicateEntryException;
+import com.anikhil.sqllib.exceptions.IncorrectOrderException;
+import com.anikhil.sqllib.query.SQLQuery;
+import com.anikhil.sqllib.query.SQLQueryBuilder;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,28 +25,29 @@ public class CourseJdbcBaseDAO implements BaseDAO<Course> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CourseJdbcBaseDAO.class);
     private final JdbcTemplate jdbcTemplate;
+    private final CourseTable courseTable;
+    private final SQLQueryBuilder<CourseTable> sqlQueryBuilder;
 
-    public CourseJdbcBaseDAO(JdbcTemplate jdbcTemplate) {
+    @Autowired
+    public CourseJdbcBaseDAO(JdbcTemplate jdbcTemplate,
+                             CourseTable courseTable,
+                             SQLQueryBuilder<CourseTable> sqlQueryBuilder) {
         this.jdbcTemplate = jdbcTemplate;
+        this.courseTable = courseTable;
+        this.sqlQueryBuilder = sqlQueryBuilder;
     }
 
     @Override
     public List<Course> list() {
         try {
-            CourseTable courseTable = TableFactory.getTableByName("course", CourseTable.class);
-            if (courseTable == null) {
-                throw new NoClassDefFoundError("Cannot fetch CourseTable class");
-            }
-            Column[] columns = {courseTable.courseId, courseTable.title, courseTable.description, courseTable.link};
-            SQLQuery query = new SQLQueryBuilder()
-                    .select(columns)
+            SQLQuery query = sqlQueryBuilder
+                    .select(courseTable.courseId, courseTable.title, courseTable.description, courseTable.link)
                     .from("course")
                     .build();
-            LOG.info(query.getQuery());
             String sql = query.getQuery();
             return jdbcTemplate.query(sql, new CourseRowMapper());
-        } catch (NoClassDefFoundError exception) {
-            LOG.error(exception.getMessage());
+        } catch (ColumnNotFoundException | DuplicateEntryException | IncorrectOrderException e) {
+            LOG.error(e.getMessage());
         }
         return Collections.emptyList();
     }
