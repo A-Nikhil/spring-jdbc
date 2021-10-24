@@ -45,8 +45,8 @@ public class SQLQueryOrderValidation {
     );
 
     private final SQLQueryOrder set = new SQLQueryOrder("set",
-            new SQLQueryKeyword[]{SQLQueryKeyword.UPDATE},
-            null
+            null,
+            new SQLQueryKeyword[]{SQLQueryKeyword.UPDATE}
     );
 
     private final SQLQueryOrder where = new SQLQueryOrder("where",

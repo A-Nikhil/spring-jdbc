@@ -31,10 +31,10 @@ public class MainTestRunner {
         SQLQueryBuilder<CourseTable> sqlQueryBuilder = new SQLQueryBuilder<>(new CourseTable());
         Map<Column, Object> paramMap = new HashMap<>();
         SQLQuery query = sqlQueryBuilder
-//                .from("course")
+                .from("course")
 //                .select(courseTable.courseId)
                 .insert(courseTable.courseId)
-                .from("course")
+//                .from("course")
                 .build();
         /*
         paramMap.put(courseTable.courseId, 123);
