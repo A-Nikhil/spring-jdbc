@@ -8,7 +8,8 @@ public class SQLQueryCondition {
         this.conditionString = conditionString;
     }
 
-    public String getConditionString() {
+    @Override
+    public String toString() {
         return conditionString;
     }
 }

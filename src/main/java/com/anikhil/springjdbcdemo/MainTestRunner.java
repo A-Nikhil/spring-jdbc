@@ -4,27 +4,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.anikhil.springjdbcdemo.sqltables.CourseTable;
-import com.anikhil.sqllib.exceptions.ColumnNotFoundException;
-import com.anikhil.sqllib.exceptions.DuplicateEntryException;
 import com.anikhil.sqllib.exceptions.SQLQueryException;
-import com.anikhil.sqllib.exceptions.WrongDataTypeException;
 import com.anikhil.sqllib.fields.Column;
 import com.anikhil.sqllib.query.SQLQuery;
 import com.anikhil.sqllib.query.SQLQueryBuilder;
+import com.anikhil.sqllib.query.SQLQueryCondition;
+import com.anikhil.sqllib.query.SQLQueryConditionBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("ALL")
 public class MainTestRunner {
     private static final Logger LOG = LoggerFactory.getLogger(MainTestRunner.class);
 
     public static void main(String[] args) throws SQLQueryException {
         testSQLQueryException();
-//        testNewLibrary();
     }
 
-    private static void testSQLQueryException() throws ColumnNotFoundException {
-        throw new ColumnNotFoundException("oonga", "boonga");
+    private static void testSQLQueryException() throws SQLQueryException {
+        CourseTable courseTable = new CourseTable();
+        SQLQueryConditionBuilder<CourseTable> conditionBuilder =
+                new SQLQueryConditionBuilder<>(courseTable);
+
+        SQLQueryCondition condition = conditionBuilder.in(courseTable.description, "APLHA", "BETA", "GAMMA")
+                .build();
+
+        System.out.println(condition.toString());
     }
 
     private static boolean checkIntegerValidator() {
