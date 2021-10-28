@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.anikhil.springjdbcdemo.sqltables.CourseTable;
 import com.anikhil.sqllib.exceptions.ColumnNotFoundException;
 import com.anikhil.sqllib.exceptions.DuplicateEntryException;
+import com.anikhil.sqllib.exceptions.SQLQueryException;
 import com.anikhil.sqllib.exceptions.WrongDataTypeException;
 import com.anikhil.sqllib.fields.Column;
 import com.anikhil.sqllib.query.SQLQuery;
@@ -17,17 +18,20 @@ import java.util.Map;
 public class MainTestRunner {
     private static final Logger LOG = LoggerFactory.getLogger(MainTestRunner.class);
 
-    public static void main(String[] args)
-            throws WrongDataTypeException, ColumnNotFoundException, DuplicateEntryException {
-        testNewLibrary();
+    public static void main(String[] args) throws SQLQueryException {
+        testSQLQueryException();
+//        testNewLibrary();
+    }
+
+    private static void testSQLQueryException() throws ColumnNotFoundException {
+        throw new ColumnNotFoundException("oonga", "boonga");
     }
 
     private static boolean checkIntegerValidator() {
         return false;
     }
 
-    private static void testNewLibrary()
-            throws WrongDataTypeException, ColumnNotFoundException, DuplicateEntryException {
+    private static void testNewLibrary() throws SQLQueryException {
         CourseTable courseTable = new CourseTable();
         Column[] columns = {courseTable.courseId, courseTable.title, courseTable.description, courseTable.link};
         SQLQueryBuilder<CourseTable> sqlQueryBuilder = new SQLQueryBuilder<>(new CourseTable());

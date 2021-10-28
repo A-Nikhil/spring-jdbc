@@ -1,6 +1,6 @@
 package com.anikhil.sqllib.exceptions;
 
-public class DuplicateEntryException extends Exception {
+public class DuplicateEntryException extends SQLQueryException {
     public DuplicateEntryException() {
         super("Duplicate column found");
     }
