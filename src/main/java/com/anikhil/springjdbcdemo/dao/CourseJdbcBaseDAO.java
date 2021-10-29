@@ -10,14 +10,18 @@ import org.springframework.stereotype.Component;
 import com.anikhil.springjdbcdemo.mappers.CourseRowMapper;
 import com.anikhil.springjdbcdemo.models.Course;
 import com.anikhil.springjdbcdemo.sqltables.CourseTable;
-import com.anikhil.sqllib.exceptions.ColumnNotFoundException;
-import com.anikhil.sqllib.exceptions.DuplicateEntryException;
-import com.anikhil.sqllib.exceptions.IncorrectOrderException;
+import com.anikhil.sqllib.exceptions.SQLQueryException;
+import com.anikhil.sqllib.fields.Column;
 import com.anikhil.sqllib.query.SQLQuery;
 import com.anikhil.sqllib.query.SQLQueryBuilder;
+import com.anikhil.sqllib.query.SQLQueryCondition;
+import com.anikhil.sqllib.query.SQLQueryConditionBuilder;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Component
@@ -25,27 +29,38 @@ public class CourseJdbcBaseDAO implements BaseDAO<Course> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CourseJdbcBaseDAO.class);
     private final JdbcTemplate jdbcTemplate;
-    private final CourseTable courseTable;
     private final SQLQueryBuilder<CourseTable> sqlQueryBuilder;
+    private final SQLQueryConditionBuilder<CourseTable> conditionBuilder;
+
+    private final Column courseId;
+    private final Column title;
+    private final Column description;
+    private final Column link;
 
     @Autowired
     public CourseJdbcBaseDAO(JdbcTemplate jdbcTemplate,
                              CourseTable courseTable,
-                             SQLQueryBuilder<CourseTable> sqlQueryBuilder) {
+                             SQLQueryBuilder<CourseTable> sqlQueryBuilder,
+                             SQLQueryConditionBuilder<CourseTable> conditionBuilder) {
         this.jdbcTemplate = jdbcTemplate;
-        this.courseTable = courseTable;
         this.sqlQueryBuilder = sqlQueryBuilder;
+        this.conditionBuilder = conditionBuilder;
+
+        // Initialize Columns
+        this.courseId = courseTable.courseId;
+        this.title = courseTable.title;
+        this.description = courseTable.description;
+        this.link = courseTable.link;
     }
 
     @Override
     public List<Course> list() {
         try {
             SQLQuery query = sqlQueryBuilder
-                    .select(courseTable.courseId, courseTable.title, courseTable.description, courseTable.link)
+                    .select(this.courseId, this.title, this.description, this.link)
                     .build();
-            String sql = query.getQuery();
-            return jdbcTemplate.query(sql, new CourseRowMapper());
-        } catch (ColumnNotFoundException | DuplicateEntryException e) {
+            return jdbcTemplate.query(query.toString(), new CourseRowMapper());
+        } catch (SQLQueryException e) {
             LOG.error(e.getMessage());
         }
         return Collections.emptyList();
@@ -53,18 +68,36 @@ public class CourseJdbcBaseDAO implements BaseDAO<Course> {
 
     @Override
     public boolean create(Course course) {
-        String sql = "insert into course (title, description, link) values (?, ?, ?)";
-        int rowsInserted = jdbcTemplate.update(sql, course.getTitle(), course.getDescription(), course.getLink());
+        int rowsInserted = 0;
+        try {
+            Map<Column, Object> paramMap = new LinkedHashMap<>();
+            paramMap.put(this.title, course.getTitle());
+            paramMap.put(this.description, course.getDescription());
+            paramMap.put(this.link, course.getLink());
+            SQLQuery sqlQuery = this.sqlQueryBuilder
+                    .insert(this.title, this.description, this.link)
+                    .values(paramMap)
+                    .build();
+            rowsInserted = jdbcTemplate.update(sqlQuery.toString());
+        } catch (SQLQueryException e) {
+            LOG.error(e.getMessage());
+        }
         return rowsInserted == 1;
     }
 
     @Override
     public Optional<Course> get(int id) {
-        String sql = "select course_id, title, description, link from course where course_id = ?";
         Course course = null;
         try {
-            course = jdbcTemplate.queryForObject(sql, new Object[]{id}, new CourseRowMapper());
-        } catch (DataAccessException e) {
+            SQLQueryCondition queryCondition = this.conditionBuilder
+                    .equals(this.courseId, id)
+                    .build();
+            SQLQuery sqlQuery = this.sqlQueryBuilder
+                    .select(this.courseId, this.title, this.description, this.link)
+                    .where(queryCondition)
+                    .build();
+            course = jdbcTemplate.queryForObject(sqlQuery.toString(), new CourseRowMapper());
+        } catch (DataAccessException | SQLQueryException e) {
             LOG.error(e.getMessage());
         }
         return Optional.ofNullable(course);
@@ -72,23 +105,47 @@ public class CourseJdbcBaseDAO implements BaseDAO<Course> {
 
     @Override
     public boolean update(Course course, int id) {
-        String sql = "update course set title = ?, description = ?, link = ? where course_id = ?";
-        int updatedRows = jdbcTemplate.update(sql, course.getTitle(), course.getDescription(), course.getLink(), course.getCourseId());
-        if (updatedRows == 1) {
-            LOG.info("Successfully update course with id - " + course.getCourseId());
-            return true;
+        int updatedRows = 0;
+        try {
+            Map<Column, Object> paramMap = new HashMap<>();
+            paramMap.put(this.title, course.getTitle());
+            paramMap.put(this.description, course.getDescription());
+            paramMap.put(this.link, course.getLink());
+            SQLQueryCondition queryCondition = this.conditionBuilder
+                    .equals(this.courseId, id)
+                    .build();
+            SQLQuery sqlQuery = this.sqlQueryBuilder
+                    .update(paramMap)
+                    .where(queryCondition)
+                    .build();
+            updatedRows = jdbcTemplate.update(sqlQuery.toString());
+            if (updatedRows == 1) {
+                LOG.info(String.format("Successfully update course with id - %d", course.getCourseId()));
+            }
+        } catch (SQLQueryException e) {
+            LOG.error(e.getMessage());
         }
-        return false;
+        return updatedRows == 1;
     }
 
     @Override
     public boolean delete(int id) {
-        String sql = "delete from course where course_id = ?";
-        int deletedRows = jdbcTemplate.update(sql, id);
-        if (deletedRows == 1) {
-            LOG.info("Successfully deleted course with id - " + id);
-            return true;
+        int deletedRows = 0;
+        try {
+            SQLQueryCondition queryCondition = this.conditionBuilder
+                    .equals(this.courseId, id)
+                    .build();
+            SQLQuery sqlQuery = this.sqlQueryBuilder
+                    .delete()
+                    .where(queryCondition)
+                    .build();
+            deletedRows = jdbcTemplate.update(sqlQuery.toString());
+            if (deletedRows == 1) {
+                LOG.info("Successfully deleted course with id - " + id);
+            }
+        } catch (SQLQueryException e) {
+            LOG.error(e.getMessage());
         }
-        return false;
+        return deletedRows == 1;
     }
 }
