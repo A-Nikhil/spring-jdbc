@@ -1,7 +1,5 @@
 package com.anikhil.sqllib.query;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.anikhil.sqllib.exceptions.ColumnNotFoundException;
 import com.anikhil.sqllib.exceptions.DuplicateEntryException;
 import com.anikhil.sqllib.exceptions.WrongDataTypeException;
@@ -67,7 +65,24 @@ public class SQLQueryBuilder<T extends Table> {
         return this;
     }
 
-    public SQLQueryBuilder<T> update() {
+    public SQLQueryBuilder<T> update(Map<Column, Object> updateParamMap)
+            throws ColumnNotFoundException, DuplicateEntryException, WrongDataTypeException {
+        this.columnUtils.performColumnValidations(updateParamMap);
+        this.queryBuilder.append(" UPDATE ")
+                .append(tableName)
+                .append(" SET ");
+        Column column;
+        Object data;
+        for (Map.Entry<Column, Object> entry : updateParamMap.entrySet()) {
+            column = entry.getKey();
+            data = entry.getValue();
+            this.queryBuilder.append(column.getColumnName())
+                    .append(" = ")
+                    .append(this.columnUtils.getFormattedValueForData(data, column.getDataType()))
+                    .append(", ");
+        }
+        this.queryBuilder.delete(this.queryBuilder.length() - 2,
+                this.queryBuilder.length());
         return this;
     }
 
@@ -76,10 +91,6 @@ public class SQLQueryBuilder<T extends Table> {
                 .append("FROM ")
                 .append(tableName)
                 .append(" ");
-        return this;
-    }
-
-    public SQLQueryBuilder<T> set() {
         return this;
     }
 
@@ -99,6 +110,12 @@ public class SQLQueryBuilder<T extends Table> {
         this.queryBuilder.delete(this.queryBuilder.length() - 2, this.queryBuilder.length())
                 .append(")");
 
+        return this;
+    }
+
+    public SQLQueryBuilder<T> where(SQLQueryCondition condition) {
+        this.queryBuilder.append(" WHERE ")
+                .append(condition.toString());
         return this;
     }
 }

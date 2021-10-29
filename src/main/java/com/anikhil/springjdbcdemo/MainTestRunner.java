@@ -19,7 +19,8 @@ public class MainTestRunner {
     private static final Logger LOG = LoggerFactory.getLogger(MainTestRunner.class);
 
     public static void main(String[] args) throws SQLQueryException {
-        testSQLQueryException();
+//        testSQLQueryException();
+        testNewLibrary();
     }
 
     private static void testSQLQueryException() throws SQLQueryException {
@@ -27,7 +28,7 @@ public class MainTestRunner {
         SQLQueryConditionBuilder<CourseTable> conditionBuilder =
                 new SQLQueryConditionBuilder<>(courseTable);
 
-        SQLQueryCondition condition = conditionBuilder.in(courseTable.description, "APLHA", "BETA", "GAMMA")
+        SQLQueryCondition condition = conditionBuilder.equals(courseTable.description, "Spring JDBC")
                 .build();
 
         System.out.println(condition.toString());
@@ -41,14 +42,18 @@ public class MainTestRunner {
         CourseTable courseTable = new CourseTable();
         Column[] columns = {courseTable.courseId, courseTable.title, courseTable.description, courseTable.link};
         SQLQueryBuilder<CourseTable> sqlQueryBuilder = new SQLQueryBuilder<>(new CourseTable());
+        SQLQueryConditionBuilder<CourseTable> conditionBuilder =
+                new SQLQueryConditionBuilder<>(courseTable);
+        SQLQueryCondition condition = conditionBuilder.equals(courseTable.description, "Spring JDBC")
+                .build();
         Map<Column, Object> paramMap = new HashMap<>();
         paramMap.put(courseTable.courseId, 123);
         paramMap.put(courseTable.title, "Title");
         paramMap.put(courseTable.description, "Description");
         paramMap.put(courseTable.link, "Link");
         SQLQuery query = sqlQueryBuilder
-                .insert(columns)
-                .values(paramMap)
+                .update(paramMap)
+                .where(condition)
                 .build();
         LOG.info(query.getQuery());
     }
