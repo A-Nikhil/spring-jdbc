@@ -5,7 +5,7 @@ public class SQLQuery {
     /**
      * Can only be accessed by {@link com.anikhil.sqllib.query.SQLQueryBuilder}
      */
-    protected String query;
+    protected final String query;
     private boolean isComplete;
 
     protected SQLQuery() {
@@ -18,12 +18,9 @@ public class SQLQuery {
         this.isComplete = false;
     }
 
-    public String getQuery() {
-        return query;
-    }
-
-    protected void setQuery(String query) {
+    protected SQLQuery(String query, boolean isComplete) {
         this.query = query;
+        this.isComplete = isComplete;
     }
 
     public boolean isComplete() {
@@ -32,5 +29,10 @@ public class SQLQuery {
 
     public void setComplete(boolean complete) {
         isComplete = complete;
+    }
+
+    @Override
+    public String toString() {
+        return this.query;
     }
 }

@@ -11,14 +11,12 @@ import java.util.Map;
 
 public class SQLQueryBuilder<T extends Table> {
 
-    private final SQLQuery sqlQuery;
     private final StringBuilder queryBuilder;
     private final T tableEntity;
     private final String tableName;
     private final ColumnUtils<T> columnUtils;
 
     public SQLQueryBuilder(T tableEntity) {
-        this.sqlQuery = new SQLQuery();
         this.queryBuilder = new StringBuilder();
         this.tableEntity = tableEntity;
         this.tableName = tableEntity.getTableName();
@@ -30,9 +28,7 @@ public class SQLQueryBuilder<T extends Table> {
     }
 
     public SQLQuery build() {
-        this.sqlQuery.setQuery(this.queryBuilder.toString());
-        this.sqlQuery.setComplete(true);
-        return this.sqlQuery;
+        return new SQLQuery(this.queryBuilder.toString(), true);
     }
 
     public SQLQueryBuilder<T> select(Column... columns) throws ColumnNotFoundException, DuplicateEntryException {

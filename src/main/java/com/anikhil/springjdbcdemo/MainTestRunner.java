@@ -54,6 +54,6 @@ public class MainTestRunner {
         SQLQuery query = sqlQueryBuilder
                 .select(columns)
                 .build();
-        LOG.info(query.getQuery());
+        LOG.info(query.toString());
     }
 }
