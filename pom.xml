@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.a-nikhil</groupId>
     <artifactId>spring-jdbc-demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>spring-jdbc-demo</name>
     <description>spring-jdbc-demo</description>
     <properties>
