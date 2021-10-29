@@ -52,8 +52,7 @@ public class MainTestRunner {
         paramMap.put(courseTable.description, "Description");
         paramMap.put(courseTable.link, "Link");
         SQLQuery query = sqlQueryBuilder
-                .update(paramMap)
-                .where(condition)
+                .select(columns)
                 .build();
         LOG.info(query.getQuery());
     }

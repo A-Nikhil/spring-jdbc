@@ -43,7 +43,9 @@ public class SQLQueryBuilder<T extends Table> {
                     .append(column.getColumnName())
                     .append(", ");
         }
-        this.queryBuilder.deleteCharAt(this.queryBuilder.length() - 2);
+        this.queryBuilder.deleteCharAt(this.queryBuilder.length() - 2)
+                .append("FROM ")
+                .append(this.tableName);
         return this;
     }
 
@@ -62,6 +64,8 @@ public class SQLQueryBuilder<T extends Table> {
     }
 
     public SQLQueryBuilder<T> delete() {
+        this.queryBuilder.append("DELETE FROM ")
+                .append(this.tableName);
         return this;
     }
 
@@ -83,14 +87,6 @@ public class SQLQueryBuilder<T extends Table> {
         }
         this.queryBuilder.delete(this.queryBuilder.length() - 2,
                 this.queryBuilder.length());
-        return this;
-    }
-
-    public SQLQueryBuilder<T> from(String tableName) {
-        this.queryBuilder
-                .append("FROM ")
-                .append(tableName)
-                .append(" ");
         return this;
     }
 
