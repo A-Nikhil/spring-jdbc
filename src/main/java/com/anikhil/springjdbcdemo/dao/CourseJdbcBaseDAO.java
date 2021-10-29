@@ -42,11 +42,10 @@ public class CourseJdbcBaseDAO implements BaseDAO<Course> {
         try {
             SQLQuery query = sqlQueryBuilder
                     .select(courseTable.courseId, courseTable.title, courseTable.description, courseTable.link)
-                    .from("course")
                     .build();
             String sql = query.getQuery();
             return jdbcTemplate.query(sql, new CourseRowMapper());
-        } catch (ColumnNotFoundException | DuplicateEntryException | IncorrectOrderException e) {
+        } catch (ColumnNotFoundException | DuplicateEntryException e) {
             LOG.error(e.getMessage());
         }
         return Collections.emptyList();
