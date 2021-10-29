@@ -1,9 +1,6 @@
 package com.anikhil.sqllib.exceptions;
 
-public class ColumnNotFoundException extends Exception {
-
-    public ColumnNotFoundException() {
-    }
+public class ColumnNotFoundException extends SQLQueryException {
 
     public ColumnNotFoundException(String message) {
         super(message);

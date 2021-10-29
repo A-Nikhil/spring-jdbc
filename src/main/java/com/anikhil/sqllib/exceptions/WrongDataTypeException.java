@@ -1,6 +1,6 @@
 package com.anikhil.sqllib.exceptions;
 
-public class WrongDataTypeException extends Exception {
+public class WrongDataTypeException extends SQLQueryException {
     public WrongDataTypeException() {
     }
 
